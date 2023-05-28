@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>School</title>
+  <a class="all_pages" href="teachers">Особовий склад</a>
+  <a class="all_pages" href="school_subjects">Предмети й викладачі</a>
+  <a class="all_pages" href="prices">Вартість навчання</a>
+</head>
+<body class="all_pages">
+<div>
+  <h1>Ласкаво просимо до Харківської школи #95!</h1>
+  <p>Тут ви знайдете інформацію про нашу школу та навчальні програми.</p>
+  <p>Долучайтесь до нас і отримайте якісну освіту у затишній атмосфері.</p>
+  <img src="school.png" alt="desc">
+</div>
+<div id="graduates">
+  <% @graduates = Graduate.all %>
+  <% @graduates.each do |graduate| %>
+    <p>
+      <strong>Випусник:</strong>
+      <%= graduate.last_name %>
+      <%= graduate.first_name %>
+      <%= graduate.graduation_year %>
+      <%= graduate.zno_scores %>
+      <%= graduate.university %>
+      <%= graduate.feedback %>
+    </p>
+    </div>
+  <% end %>
+
+  </body>
+</html>

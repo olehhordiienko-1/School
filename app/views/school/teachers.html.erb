@@ -1,0 +1,35 @@
+<h1>Особовий склад</h1>
+<head>
+  <a class="all_pages" href="/">На головну</a>
+</head>
+<body class="all_pages">
+<div id="personal_records">
+  <% @personal_records = PersonalRecord.all %>
+  <% @personal_records.each do |personal_record| %>
+    <hr>
+    <p>
+      <strong>ПІБ:</strong>
+      <%= personal_record.last_name %>
+      <%= personal_record.first_name %>
+      <%= personal_record.middle_name %>
+    </p>
+
+    <p>
+      <strong>Освіта:</strong>
+      <%= personal_record.education %>
+    </p>
+
+    <p>
+      <strong>Контакти:</strong>
+      <%= personal_record.contacts %>
+    </p>
+
+    <p>
+      <strong>Додаткова інформація:</strong>
+      <%= personal_record.description %>
+    </p>
+
+  <% end %>
+</div>
+
+</body>

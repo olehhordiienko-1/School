@@ -1,0 +1,26 @@
+<h1>Предмети й викладачі</h1>
+<body class="all_pages">
+<head>
+  <a class="all_pages" href="/">На головну</a>
+</head>
+<div>
+  <% @subject_teachers = SubjectTeacher.all %>
+  <% @subject_teachers.each do |subject_teacher| %>
+    <hr>
+    <p>
+      <strong>ПІБ:</strong>
+      <%= PersonalRecord.find_by(id: subject_teacher.personal_record_id).last_name %>
+      <%= PersonalRecord.find_by(id: subject_teacher.personal_record_id).first_name %>
+      <%= PersonalRecord.find_by(id: subject_teacher.personal_record_id).middle_name %>
+    </p>
+    <p>
+      <strong>Предмет:</strong>
+      <%= Subject.find_by(id: subject_teacher.subject_id).name %>
+    </p>
+    <p>
+      <strong>Рік:</strong>
+      <%= subject_teacher.academic_year %>
+    </p>
+  <% end %>
+</div>
+</body>

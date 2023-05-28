@@ -1,0 +1,30 @@
+<h1>Price lists</h1>
+
+<head>
+  <a class="all_pages" href="/">На головну</a>
+</head>
+<body class="all_pages">
+<div id="price_lists">
+  <% @price_lists = PriceList.all %>
+  <% @price_lists.each do |price_list| %>
+    <p>
+      <strong>Тип оплати:</strong>
+      <%= price_list.payment_type %>
+    </p>
+
+    <p>
+      <strong>Вартість:</strong>
+      <%= price_list.tuition_cost %>
+    </p>
+    <p>
+      <strong>Додаткова інформація щодо оплати:</strong>
+      <%= price_list.description %>
+    </p>
+
+    <p>
+      <strong>Рік:</strong>
+      <%= price_list.year %>
+    </p>
+  <% end %>
+</div>
+</body>
