@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  personal_record: one
+  subject: one
+  academic_year: MyString
+
+two:
+  personal_record: two
+  subject: two
+  academic_year: MyString

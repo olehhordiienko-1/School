@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  payment_type: MyString
+  tuition_cost: 9.99
+  year: 1
+  description: MyText
+
+two:
+  payment_type: MyString
+  tuition_cost: 9.99
+  year: 1
+  description: MyText

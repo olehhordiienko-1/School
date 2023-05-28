@@ -1,0 +1,18 @@
+<div id="<%= dom_id subject_teacher %>">
+  <p>
+    <strong>Personal record:</strong>
+    <%= PersonalRecord.find_by(id:subject_teacher.personal_record_id).last_name %>
+    <%= PersonalRecord.find_by(id:subject_teacher.personal_record_id).first_name %>
+    <%= PersonalRecord.find_by(id:subject_teacher.personal_record_id).middle_name %>
+  </p>
+
+  <p>
+    <strong>Subject:</strong>
+    <%= Subject.find_by(id:subject_teacher.subject_id).name %>
+  </p>
+
+  <p>
+    <strong>Academic year:</strong>
+    <%= subject_teacher.academic_year %>
+  </p>
+</div>
