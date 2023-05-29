@@ -1,6 +1,13 @@
 class PriceListsController < ApplicationController
   before_action :set_price_list, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :check_admin, only: %i[new create edit update destroy]
 
+  def check_admin
+    unless current_user.is_admin
+      redirect_to root_path, alert: "You don't have permission to perform this action."
+    end
+  end
   # GET /price_lists or /price_lists.json
   def index
     @price_lists = PriceList.all

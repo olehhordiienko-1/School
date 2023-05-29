@@ -1,0 +1,77 @@
+<h1>Personal Cabinet</h1>
+
+<head>
+  <div class="links-container">
+    <a class="link" href="/" style="color: black">На головну</a>
+  </div>
+
+</head>
+<body class="all_pages">
+<div id="price_lists">
+  <p>
+  <p>
+    <strong>Ваш email:</strong>
+    <%= current_user.email %>
+  </p>
+  <% @teacher = PersonalRecord.find_by(contacts: current_user.email) %>
+  <% if @teacher != nil %>
+    <p>
+      <strong>Ваші персональні дані:</strong>
+      <%= @teacher.last_name %>
+      <%= @teacher.first_name %>
+      <%= @teacher.middle_name %>
+    </p>
+    <% @subjects = UserSubjectTeacher.where(subject_teacher: SubjectTeacher.find_by(personal_record: @teacher.id)) %>
+    <% if @subjects.any? %>
+      <% @subjects.each do |subject| %>
+
+        <% sb = SubjectTeacher.find_by(id: subject.subject_teacher_id) %>
+        <p>
+          <strong>Ваш предмет викладання:</strong>
+          <%= Subject.find_by(id: sb.subject_id).name %>
+        </p>
+        <p>
+          <strong>Школяр:</strong>
+          <%= User.find_by(id: subject.user_id).email %>
+        </p>
+        <p>
+          <strong>Оцінка за семестр:</strong>
+          <%= subject.score %>
+        </p>
+        <p>
+          <%= link_to "Показати цей запис", subject %>
+        </p>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% @subjects = UserSubjectTeacher.where(user_id: current_user.id) %>
+    <% if @subjects.any? %>
+      <% @subjects.each do |subject| %>
+        <%= hidden_field_tag sb = SubjectTeacher.find_by(id: subject.subject_teacher_id) %>
+        <hr>
+        <p>
+          <strong>ПІБ Викладача:</strong>
+          <%= PersonalRecord.find_by(id: sb.personal_record_id).last_name %>
+          <%= PersonalRecord.find_by(id: sb.personal_record_id).first_name %>
+          <%= PersonalRecord.find_by(id: sb.personal_record_id).middle_name %>
+        </p>
+        <p>
+          <strong>Пошта викладача:</strong>
+          <%= PersonalRecord.find_by(id: sb.personal_record_id).contacts %>
+        </p>
+        <p>
+          <strong>Предмет:</strong>
+          <%= Subject.find_by(id: sb.subject_id).name %>
+        </p>
+        <p>
+          <strong>Ваша оцінка:</strong>
+          <%= subject.score %>
+        </p>
+      <% end %>
+    <% else %>
+      None
+    <% end %>
+  <% end %>
+
+</div>
+</body>

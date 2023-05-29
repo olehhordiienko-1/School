@@ -1,3 +1,9 @@
+UserSubjectTeacher.destroy_all
+SubjectTeacher.destroy_all
+PersonalRecord.destroy_all
+Subject.destroy_all
+User.destroy_all
+
 math = Subject.new(name: "Математика", hours: 36, semesters:"Перший та другий")
 math.save
 
@@ -58,13 +64,48 @@ borodach.save
 svyatiy = PersonalRecord.new(last_name: "Святий", middle_name: "Микитович", first_name: "Микола", education:"Вища освіта (ХПІ)", contacts:"svyatiy.m.m@gmail.com", description:"")
 svyatiy.save
 
-SubjectTeacher.create(personal_record: vereshchuk, subject: urk_mova, academic_year: 2023)
-SubjectTeacher.create(personal_record: sereda, subject: physics, academic_year: 2023)
-SubjectTeacher.create(personal_record: magilin, subject: ukr_lit, academic_year: 2023)
-SubjectTeacher.create(personal_record: borodach, subject: fiz_kult, academic_year: 2023)
-SubjectTeacher.create(personal_record: moskalenko, subject: math, academic_year: 2023)
-SubjectTeacher.create(personal_record: kurgan, subject: math, academic_year: 2023)
-SubjectTeacher.create(personal_record: ivashchenko, subject: german, academic_year: 2023)
-SubjectTeacher.create(personal_record: lipoviy, subject: english, academic_year: 2023)
-SubjectTeacher.create(personal_record: yeremenko, subject: zv, academic_year: 2023)
-SubjectTeacher.create(personal_record: vovk, subject: physics, academic_year: 2023)
+vereshchuk_urk_mova = SubjectTeacher.new(personal_record: vereshchuk, subject: urk_mova, academic_year: 2023)
+vereshchuk_urk_mova.save
+
+sereda_physics = SubjectTeacher.new(personal_record: sereda, subject: physics, academic_year: 2023)
+sereda_physics.save
+
+magilin_ukr_lit = SubjectTeacher.new(personal_record: magilin, subject: ukr_lit, academic_year: 2023)
+magilin_ukr_lit.save
+
+borodach_fiz_kult = SubjectTeacher.new(personal_record: borodach, subject: fiz_kult, academic_year: 2023)
+borodach_fiz_kult.save
+
+moskalenko_math = SubjectTeacher.new(personal_record: moskalenko, subject: math, academic_year: 2023)
+moskalenko_math.save
+
+kurgan_math = SubjectTeacher.new(personal_record: kurgan, subject: math, academic_year: 2023)
+kurgan_math.save
+
+ivashchenko_german = SubjectTeacher.new(personal_record: ivashchenko, subject: german, academic_year: 2023)
+ivashchenko_german.save
+
+lipoviy_english = SubjectTeacher.new(personal_record: lipoviy, subject: english, academic_year: 2023)
+lipoviy_english.save
+
+yeremenko_zv = SubjectTeacher.new(personal_record: yeremenko, subject: zv, academic_year: 2023)
+yeremenko_zv.save
+
+vovk_physics = SubjectTeacher.new(personal_record: vovk, subject: physics, academic_year: 2023)
+vovk_physics.save
+
+
+# THIS CODE NEEDS FOR CHANGING ROLE FROM USER TO ADMIN,
+# UNCOMMENT THIS CODE TO CHANGE ROLE FOR ACCOUNT SPECIFIED
+# changing_role = User.find_by(email: "please-change-me-to-any-specified-value")
+# changing_role.is_admin = true
+# changing_role.save
+
+test_user = User.new(email: "admin@gmail.com", password: "adminadmin", is_admin: true)
+test_user.save
+
+UserSubjectTeacher.create(user: test_user, subject_teacher: vovk_physics, score: 12)
+UserSubjectTeacher.create(user: test_user, subject_teacher: yeremenko_zv, score: 10)
+UserSubjectTeacher.create(user: test_user, subject_teacher: lipoviy_english, score: 9)
+UserSubjectTeacher.create(user: test_user, subject_teacher: ivashchenko_german, score: 10)
+UserSubjectTeacher.create(user: test_user, subject_teacher: kurgan_math, score: 12)

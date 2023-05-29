@@ -1,5 +1,12 @@
 class GraduatesController < ApplicationController
   before_action :set_graduate, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :check_admin, only: %i[new create edit update destroy]
+  def check_admin
+    unless current_user.is_admin
+      redirect_to root_path, alert: "You don't have permission to perform this action."
+    end
+  end
 
   # GET /graduates or /graduates.json
   def index
@@ -65,6 +72,6 @@ class GraduatesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def graduate_params
-      params.require(:graduate).permit(:last_name, :first_name, :graduation_year, :zno_scores, :university, :feedback)
+      params.require(:graduate).permit(:last_name, :first_name, :graduation_year, :zno_scores, :university, :feedback, :image)
     end
 end

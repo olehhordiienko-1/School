@@ -1,5 +1,13 @@
 class SubjectTeachersController < ApplicationController
   before_action :set_subject_teacher, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :check_admin, only: %i[new create edit update destroy]
+
+  def check_admin
+    unless current_user.is_admin
+      redirect_to root_path, alert: "You don't have permission to perform this action."
+    end
+  end
 
   # GET /subject_teachers or /subject_teachers.json
   def index

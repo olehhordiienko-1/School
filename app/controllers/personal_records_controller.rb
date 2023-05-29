@@ -1,5 +1,13 @@
 class PersonalRecordsController < ApplicationController
   before_action :set_personal_record, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :check_admin, only: %i[new create edit update destroy]
+
+  def check_admin
+    unless current_user.is_admin
+      redirect_to root_path, alert: "You don't have permission to perform this action."
+    end
+  end
 
   # GET /personal_records or /personal_records.json
   def index

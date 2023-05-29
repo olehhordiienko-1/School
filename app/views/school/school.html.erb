@@ -2,31 +2,73 @@
 <html>
 <head>
   <title>School</title>
-  <a class="all_pages" href="teachers">Особовий склад</a>
-  <a class="all_pages" href="school_subjects">Предмети й викладачі</a>
-  <a class="all_pages" href="prices">Вартість навчання</a>
 </head>
-<body class="all_pages">
-<div>
-  <h1>Ласкаво просимо до Харківської школи #95!</h1>
-  <p>Тут ви знайдете інформацію про нашу школу та навчальні програми.</p>
-  <p>Долучайтесь до нас і отримайте якісну освіту у затишній атмосфері.</p>
-  <img src="school.png" alt="desc">
+<header>
+  <div class="links-container">
+    <a class="link" href="teachers">Особовий склад</a>
+    <a class="link" href="school_subjects">Предмети й викладачі</a>
+    <a class="link" href="prices">Вартість навчання</a>
+    <a class="link" href="personal_cabinet">Особистий кабінет</a>
+    <% if user_signed_in? %>
+      <div class="link"> Вітаємо <%= current_user.email %> </div>
+      <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= button_to "Sign in", new_user_session_path %>
+    <% end %>
+  </div>
+</header>
+<hr>
+<body>
+<div class="all_pages">
+  <h2>Новини</h2>
+  <h3>Відкриття школи №95 у місті Харків</h3>
+  <h4>
+    Ми маємо чудову новину для мешканців Харкова! З радістю оголошуємо про відкриття школи №95 у нашому прекрасному
+    місті у звʼязку з ситуацією у місті.
+    Школа №95 є сучасним навчальним закладом, який надає якісну освіту згідно з усіма вимогами сучасного світу.
+    Наша команда висококваліфікованих вчителів та співробітників прагне надати учням найкращі умови для розвитку,
+    навчання та самореалізації.
+    У школі №95 ми пропонуємо широкий спектр предметів та додаткових занять, що допоможуть учням розкрити свій
+    потенціал у різних сферах. Ми прагнемо не лише формувати знання, але й розвивати творчість, лідерські якості та
+    критичне мислення у наших учнів.
+    На додаток до академічного процесу, школа №95 пропонує багатий вибір позаурочних заходів та клубів, включаючи
+    спортивні секції, музичні гуртки, театральні колективи та багато іншого. Ми надаємо можливість учням розкрити
+    свої таланти та захоплення в різних сферах.
+    Запрошуємо всіх батьків та учнів долучитись до нашої шкільної спільноти. Разом ми створимо навчальне
+    середовище, яке сприятиме здобуттю знань, розвитку особистості та формуванню майбутніх лідерів.
+    Для отримання додаткової інформації та реєстрації, будь ласка, зв'яжіться з нашим приймальним відділом за
+    контактними даними, наведеними на нашому веб-сайті.
+  </h4>
 </div>
-<div id="graduates">
+</body>
+<hr>
+<div id="graduates" class="all_pages">
   <% @graduates = Graduate.all %>
   <% @graduates.each do |graduate| %>
-    <p>
-      <strong>Випусник:</strong>
-      <%= graduate.last_name %>
-      <%= graduate.first_name %>
-      <%= graduate.graduation_year %>
-      <%= graduate.zno_scores %>
-      <%= graduate.university %>
-      <%= graduate.feedback %>
-    </p>
+    <div class="graduate">
+      <%= image_tag(graduate.image, size: "200x200", class: "graduate-image") %>
+      <div class="graduate-info">
+        <p>
+        <p>
+          <strong>Випусник</strong>
+          <%= graduate.graduation_year %>
+        </p>
+        <p>
+          <strong> </strong>
+          <%= graduate.last_name %>
+          <%= graduate.first_name %>
+        </p>
+        <p>
+          <%= graduate.zno_scores %>
+        <p>
+          <%= graduate.university %>
+        </p>
+        </p>
+        <p>
+          <%= graduate.feedback %>
+        </p>
+      </div>
     </div>
   <% end %>
-
-  </body>
+</div>
 </html>
