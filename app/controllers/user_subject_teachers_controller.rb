@@ -28,7 +28,7 @@ class UserSubjectTeachersController < ApplicationController
   # POST /user_subject_teachers or /user_subject_teachers.json
   def create
     @user_subject_teacher = UserSubjectTeacher.new(user_subject_teacher_params)
-
+    # Створення нового запису в таблиці User-Subject-Teacher
     respond_to do |format|
       if @user_subject_teacher.save
         format.html { redirect_to user_subject_teacher_url(@user_subject_teacher), notice: "User subject teacher was successfully created." }
@@ -42,6 +42,7 @@ class UserSubjectTeachersController < ApplicationController
 
   # PATCH/PUT /user_subject_teachers/1 or /user_subject_teachers/1.json
   def update
+    # Оновлення даних в таблиці User-Subject-Teacher
     respond_to do |format|
       if @user_subject_teacher.update(user_subject_teacher_params)
         format.html { redirect_to user_subject_teacher_url(@user_subject_teacher), notice: "User subject teacher was successfully updated." }
@@ -55,6 +56,7 @@ class UserSubjectTeachersController < ApplicationController
 
   # DELETE /user_subject_teachers/1 or /user_subject_teachers/1.json
   def destroy
+    # Видалення запису з таблиці User-Subject-Teacher
     @user_subject_teacher.destroy
 
     respond_to do |format|
@@ -71,6 +73,6 @@ class UserSubjectTeachersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_subject_teacher_params
-      params.require(:user_subject_teacher).permit(:user_id, :subject_teacher_id, :score)
+      params.require(:user_subject_teacher).permit(:user_id, :subject_teacher_id, :score, :year)
     end
 end

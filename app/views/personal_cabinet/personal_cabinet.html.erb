@@ -35,8 +35,12 @@
           <%= User.find_by(id: subject.user_id).email %>
         </p>
         <p>
-          <strong>Оцінка за семестр:</strong>
+          <strong>Оцінка:</strong>
           <%= subject.score %>
+        </p>
+        <p>
+          <strong>Year:</strong>
+          <%= subject.year %>
         </p>
         <p>
           <%= link_to "Показати цей запис", subject %>
@@ -67,10 +71,21 @@
           <strong>Ваша оцінка:</strong>
           <%= subject.score %>
         </p>
+        <p>
+          <strong>Year:</strong>
+          <%= subject.year %>
+        </p>
       <% end %>
     <% else %>
-      None
+      <h3>Пошук користувача</h3>
+      <div class="links-container">
+      <%= form_tag(users_search_path, method: :get) do %>
+        <%= text_field_tag :email, params[:email], placeholder: "Введіть електронну пошту" %>
+        <%= submit_tag "Пошук" %>
+      <% end %>
+      </div>
     <% end %>
+
   <% end %>
 
 </div>

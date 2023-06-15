@@ -4,6 +4,7 @@ class SubjectsController < ApplicationController
   before_action :check_admin, only: %i[new create edit update destroy]
 
   def check_admin
+    # Перевірка в контролері для надані зміни даних в таблиці, чи є поточний користувач адміном
     unless current_user.is_admin
       redirect_to root_path, alert: "You don't have permission to perform this action."
     end

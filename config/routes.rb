@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   get '/school_subjects', to: 'school#school_subjects'
   get '/prices', to: 'school#prices'
   get '/personal_cabinet', to: 'personal_cabinet#personal_cabinet'
+  get 'users/search', to: 'users#search', as: 'users_search'
 end

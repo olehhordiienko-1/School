@@ -1,0 +1,55 @@
+<head>
+  <div class="links-container">
+    <a class="link" href="/" style="color: black">На головну</a>
+  </div>
+</head>
+
+<h1>Пошук користувача</h1>
+
+<body class="all_pages">
+<div class="links-container">
+  <div class="link">
+    <%= form_tag(users_search_path, method: :get) do %>
+      <%= text_field_tag :email, params[:email], placeholder: "Введіть електронну пошту" %>
+      <%= submit_tag "Пошук" %>
+    <% end %>
+  </div>
+</div>
+<% if @users != nil %>
+  <h2>Результати пошуку:</h2>
+  <ul>
+    <% @users.each do |user| %>
+      <li class="links-container"><%= user.email %></li>
+      <% @subjects = UserSubjectTeacher.where(user_id: User.find_by(email: user.email).id) %>
+      <% if @subjects.any? %>
+        <% @subjects.each do |subject| %>
+          <%= hidden_field_tag sb = SubjectTeacher.find_by(id: subject.subject_teacher_id) %>
+          <hr>
+          <p>
+            <strong>ПІБ Викладача:</strong>
+            <%= PersonalRecord.find_by(id: sb.personal_record_id).last_name %>
+            <%= PersonalRecord.find_by(id: sb.personal_record_id).first_name %>
+            <%= PersonalRecord.find_by(id: sb.personal_record_id).middle_name %>
+          </p>
+          <p>
+            <strong>Пошта викладача:</strong>
+            <%= PersonalRecord.find_by(id: sb.personal_record_id).contacts %>
+          </p>
+          <p>
+            <strong>Предмет:</strong>
+            <%= Subject.find_by(id: sb.subject_id).name %>
+          </p>
+          <p>
+            <strong>Oцінка:</strong>
+            <%= subject.score %>
+          </p>
+        <% end %>
+      <% else %>
+        None
+      <% end %>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Немає результатів для введеної електронної пошти.</p>
+<% end %>
+</body>

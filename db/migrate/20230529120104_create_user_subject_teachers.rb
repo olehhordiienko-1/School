@@ -4,6 +4,7 @@ class CreateUserSubjectTeachers < ActiveRecord::Migration[7.0]
       t.references :user, null: false, foreign_key: true
       t.references :subject_teacher, null: false, foreign_key: true
       t.integer :score
+      t.integer :year
 
       t.timestamps
     end

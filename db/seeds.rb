@@ -104,8 +104,8 @@ vovk_physics.save
 test_user = User.new(email: "admin@gmail.com", password: "adminadmin", is_admin: true)
 test_user.save
 
-UserSubjectTeacher.create(user: test_user, subject_teacher: vovk_physics, score: 12)
-UserSubjectTeacher.create(user: test_user, subject_teacher: yeremenko_zv, score: 10)
-UserSubjectTeacher.create(user: test_user, subject_teacher: lipoviy_english, score: 9)
-UserSubjectTeacher.create(user: test_user, subject_teacher: ivashchenko_german, score: 10)
-UserSubjectTeacher.create(user: test_user, subject_teacher: kurgan_math, score: 12)
+UserSubjectTeacher.create(user: test_user, subject_teacher: vovk_physics, score: 12, year:2023)
+UserSubjectTeacher.create(user: test_user, subject_teacher: yeremenko_zv, score: 10, year: 2023)
+UserSubjectTeacher.create(user: test_user, subject_teacher: lipoviy_english, score: 9, year: 2022)
+UserSubjectTeacher.create(user: test_user, subject_teacher: ivashchenko_german, score: 10, year: 2022)
+UserSubjectTeacher.create(user: test_user, subject_teacher: kurgan_math, score: 12, year: 2022)

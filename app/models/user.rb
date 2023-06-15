@@ -3,6 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   before_validation :set_default_is_admin
 
+  enum role: [:teacher, :pupil, :relative]
+
   private
 
   def set_default_is_admin
