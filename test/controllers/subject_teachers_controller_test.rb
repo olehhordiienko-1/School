@@ -1,48 +1,115 @@
-require "test_helper"
+require 'rails_helper'
 
-class SubjectTeachersControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @subject_teacher = subject_teachers(:one)
+RSpec.describe SubjectTeachersController, type: :controller do
+  describe 'GET #index' do
+    it 'returns a success response' do
+      get :index
+      expect(response).to be_successful
+    end
   end
 
-  test "should get index" do
-    get subject_teachers_url
-    assert_response :success
+  describe 'GET #show' do
+    let(:subject_teacher) { create(:subject_teacher) }
+
+    it 'returns a success response' do
+      get :show, params: { id: subject_teacher.id }
+      expect(response).to be_successful
+    end
   end
 
-  test "should get new" do
-    get new_subject_teacher_url
-    assert_response :success
+  describe 'GET #new' do
+    it 'returns a success response' do
+      get :new
+      expect(response).to be_successful
+    end
   end
 
-  test "should create subject_teacher" do
-    assert_difference("SubjectTeacher.count") do
-      post subject_teachers_url, params: { subject_teacher: { academic_year: @subject_teacher.academic_year, personal_record_id: @subject_teacher.personal_record_id, subject_id: @subject_teacher.subject_id } }
+  describe 'GET #edit' do
+    let(:subject_teacher) { create(:subject_teacher) }
+
+    it 'returns a success response' do
+      get :edit, params: { id: subject_teacher.id }
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'POST #create' do
+    let(:valid_attributes) { attributes_for(:subject_teacher) }
+    let(:invalid_attributes) { attributes_for(:subject_teacher, subject_id: nil) }
+
+    context 'with valid params' do
+      it 'creates a new SubjectTeacher' do
+        expect {
+          post :create, params: { subject_teacher: valid_attributes }
+        }.to change(SubjectTeacher, :count).by(1)
+      end
+
+      it 'redirects to the created subject teacher' do
+        post :create, params: { subject_teacher: valid_attributes }
+        expect(response).to redirect_to(subject_teacher_path(SubjectTeacher.last))
+      end
     end
 
-    assert_redirected_to subject_teacher_url(SubjectTeacher.last)
+    context 'with invalid params' do
+      it 'does not create a new SubjectTeacher' do
+        expect {
+          post :create, params: { subject_teacher: invalid_attributes }
+        }.to_not change(SubjectTeacher, :count)
+      end
+
+      it 'renders the new template with unprocessable_entity status' do
+        post :create, params: { subject_teacher: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
-  test "should show subject_teacher" do
-    get subject_teacher_url(@subject_teacher)
-    assert_response :success
-  end
+  describe 'PATCH #update' do
+    let(:subject_teacher) { create(:subject_teacher) }
+    let(:valid_attributes) { attributes_for(:subject_teacher, academic_year: '2023-2024') }
+    let(:invalid_attributes) { attributes_for(:subject_teacher, academic_year: nil) }
 
-  test "should get edit" do
-    get edit_subject_teacher_url(@subject_teacher)
-    assert_response :success
-  end
+    context 'with valid params' do
+      it 'updates the requested subject teacher' do
+        patch :update, params: { id: subject_teacher.id, subject_teacher: valid_attributes }
+        subject_teacher.reload
+        expect(subject_teacher.academic_year).to eq('2023-2024')
+      end
 
-  test "should update subject_teacher" do
-    patch subject_teacher_url(@subject_teacher), params: { subject_teacher: { academic_year: @subject_teacher.academic_year, personal_record_id: @subject_teacher.personal_record_id, subject_id: @subject_teacher.subject_id } }
-    assert_redirected_to subject_teacher_url(@subject_teacher)
-  end
-
-  test "should destroy subject_teacher" do
-    assert_difference("SubjectTeacher.count", -1) do
-      delete subject_teacher_url(@subject_teacher)
+      it 'redirects to the subject teacher' do
+        patch :update, params: { id: subject_teacher.id, subject_teacher: valid_attributes }
+        expect(response).to redirect_to(subject_teacher_path(subject_teacher))
+      end
     end
 
-    assert_redirected_to subject_teachers_url
+    context 'with invalid params' do
+      it 'does not update the requested subject teacher' do
+        patch :update, params: { id: subject_teacher.id, subject_teacher: invalid_attributes }
+        subject_teacher.reload
+        expect(subject_teacher.academic_year).to_not be_nil
+      end
+
+      it 'renders the edit template with unprocessable_entity status' do
+        patch :update, params: { id: subject_teacher.id, subject_teacher: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:subject_teacher) { create(:subject_teacher) }
+
+    it 'destroys the requested subject teacher' do
+      expect {
+        delete :destroy, params: { id: subject_teacher.id }
+      }.to change(SubjectTeacher, :count).by(-1)
+    end
+
+    it 'redirects to the subject teachers list' do
+      delete :destroy, params: { id: subject_teacher.id }
+      expect(response).to redirect_to(subject_teachers_path)
+    end
   end
 end

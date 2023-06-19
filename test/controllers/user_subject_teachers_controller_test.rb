@@ -1,48 +1,123 @@
-require "test_helper"
+require 'rails_helper'
 
-class UserSubjectTeachersControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @user_subject_teacher = user_subject_teachers(:one)
+RSpec.describe UserSubjectTeachersController, type: :controller do
+  let(:user) { create(:user) }
+  let(:personal_record) { create(:personal_record, contacts: user.email) }
+  let(:subject_teacher) { create(:subject_teacher) }
+  let(:valid_attributes) { attributes_for(:user_subject_teacher, user_id: user.id, subject_teacher_id: subject_teacher.id) }
+  let(:invalid_attributes) { attributes_for(:user_subject_teacher, user_id: nil, subject_teacher_id: subject_teacher.id) }
+
+  before do
+    sign_in(user)
   end
 
-  test "should get index" do
-    get user_subject_teachers_url
-    assert_response :success
+  describe 'GET #index' do
+    it 'returns a success response' do
+      get :index
+      expect(response).to be_successful
+    end
   end
 
-  test "should get new" do
-    get new_user_subject_teacher_url
-    assert_response :success
+  describe 'GET #show' do
+    let(:user_subject_teacher) { create(:user_subject_teacher) }
+
+    it 'returns a success response' do
+      get :show, params: { id: user_subject_teacher.id }
+      expect(response).to be_successful
+    end
   end
 
-  test "should create user_subject_teacher" do
-    assert_difference("UserSubjectTeacher.count") do
-      post user_subject_teachers_url, params: { user_subject_teacher: { score: @user_subject_teacher.score, subject_teacher_id: @user_subject_teacher.subject_teacher_id, user_id: @user_subject_teacher.user_id } }
+  describe 'GET #new' do
+    it 'returns a success response' do
+      get :new
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'GET #edit' do
+    let(:user_subject_teacher) { create(:user_subject_teacher) }
+
+    it 'returns a success response' do
+      get :edit, params: { id: user_subject_teacher.id }
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new UserSubjectTeacher' do
+        expect {
+          post :create, params: { user_subject_teacher: valid_attributes }
+        }.to change(UserSubjectTeacher, :count).by(1)
+      end
+
+      it 'redirects to the created user subject teacher' do
+        post :create, params: { user_subject_teacher: valid_attributes }
+        expect(response).to redirect_to(user_subject_teacher_path(UserSubjectTeacher.last))
+      end
     end
 
-    assert_redirected_to user_subject_teacher_url(UserSubjectTeacher.last)
+    context 'with invalid params' do
+      it 'does not create a new UserSubjectTeacher' do
+        expect {
+          post :create, params: { user_subject_teacher: invalid_attributes }
+        }.to_not change(UserSubjectTeacher, :count)
+      end
+
+      it 'renders the new template with unprocessable_entity status' do
+        post :create, params: { user_subject_teacher: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
-  test "should show user_subject_teacher" do
-    get user_subject_teacher_url(@user_subject_teacher)
-    assert_response :success
-  end
+  describe 'PATCH #update' do
+    let(:user_subject_teacher) { create(:user_subject_teacher) }
 
-  test "should get edit" do
-    get edit_user_subject_teacher_url(@user_subject_teacher)
-    assert_response :success
-  end
+    context 'with valid params' do
+      let(:valid_update_attributes) { attributes_for(:user_subject_teacher, score: 90) }
 
-  test "should update user_subject_teacher" do
-    patch user_subject_teacher_url(@user_subject_teacher), params: { user_subject_teacher: { score: @user_subject_teacher.score, subject_teacher_id: @user_subject_teacher.subject_teacher_id, user_id: @user_subject_teacher.user_id } }
-    assert_redirected_to user_subject_teacher_url(@user_subject_teacher)
-  end
+      it 'updates the requested user subject teacher' do
+        patch :update, params: { id: user_subject_teacher.id, user_subject_teacher: valid_update_attributes }
+        user_subject_teacher.reload
+        expect(user_subject_teacher.score).to eq(90)
+      end
 
-  test "should destroy user_subject_teacher" do
-    assert_difference("UserSubjectTeacher.count", -1) do
-      delete user_subject_teacher_url(@user_subject_teacher)
+      it 'redirects to the user subject teacher' do
+        patch :update, params: { id: user_subject_teacher.id, user_subject_teacher: valid_update_attributes }
+        expect(response).to redirect_to(user_subject_teacher_path(user_subject_teacher))
+      end
     end
 
-    assert_redirected_to user_subject_teachers_url
+    context 'with invalid params' do
+      it 'does not update the requested user subject teacher' do
+        previous_score = user_subject_teacher.score
+        patch :update, params: { id: user_subject_teacher.id, user_subject_teacher: invalid_attributes }
+        user_subject_teacher.reload
+        expect(user_subject_teacher.score).to eq(previous_score)
+      end
+
+      it 'renders the edit template with unprocessable_entity status' do
+        patch :update, params: { id: user_subject_teacher.id, user_subject_teacher: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:user_subject_teacher) { create(:user_subject_teacher) }
+
+    it 'destroys the requested user subject teacher' do
+      expect {
+        delete :destroy, params: { id: user_subject_teacher.id }
+      }.to change(UserSubjectTeacher, :count).by(-1)
+    end
+
+    it 'redirects to the user subject teachers list' do
+      delete :destroy, params: { id: user_subject_teacher.id }
+      expect(response).to redirect_to(user_subject_teachers_path)
+    end
   end
 end

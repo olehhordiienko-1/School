@@ -8,6 +8,7 @@ class User < ApplicationRecord
   private
 
   def set_default_is_admin
+    # Встановлення за дефолтом адмін статусу False для юзера
     self.is_admin = false if new_record? && is_admin.nil?
   end
   devise :database_authenticatable, :registerable,

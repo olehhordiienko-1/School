@@ -45,6 +45,7 @@
 <div id="graduates" class="all_pages">
   <% @graduates = Graduate.all %>
   <% @graduates.each do |graduate| %>
+    <!--Вивід на головну сторінку фото і дані випускників-->
     <div class="graduate">
       <%= image_tag(graduate.image, size: "200x200", class: "graduate-image") %>
       <div class="graduate-info">
@@ -62,7 +63,6 @@
           <%= graduate.zno_scores %>
         <p>
           <%= graduate.university %>
-        </p>
         </p>
         <p>
           <%= graduate.feedback %>
